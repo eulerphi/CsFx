@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FB24BB8A-C421-4279-AD98-5ED97506E4CE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CsFxCtCITests</RootNamespace>
+    <AssemblyName>CsFxCtCITests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <Choose>
+    <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <ItemGroup>
+    <Compile Include="ArraysAndStrings\Problem2Tests.cs" />
+    <Compile Include="ArraysAndStrings\Problem3Tests.cs" />
+    <Compile Include="ArraysAndStrings\Problem4Tests.cs" />
+    <Compile Include="ArraysAndStrings\Problem5Tests.cs" />
+    <Compile Include="ArraysAndStrings\Problem6Tests.cs" />
+    <Compile Include="ArraysAndStrings\Problem7Tests.cs" />
+    <Compile Include="ArraysAndStrings\Problem8Tests.cs" />
+    <Compile Include="Hard\ShuffleTests.cs" />
+    <Compile Include="Hard\RandomFromPoolTests.cs" />
+    <Compile Include="Hard\CountTwosBetweenZeroAndNTests.cs" />
+    <Compile Include="Hard\FindDistanceBetweenWordsTests.cs" />
+    <Compile Include="Hard\FindSmallestSubsetTests.cs" />
+    <Compile Include="Hard\FindLongestWordTests.cs" />
+    <Compile Include="Hard\FindSubstringsTests.cs" />
+    <Compile Include="Hard\TrackMedianTests.cs" />
+    <Compile Include="LinkedLists\RemoveDuplicatesTests.cs" />
+    <Compile Include="LinkedLists\KthElementFromEndTests.cs" />
+    <Compile Include="LinkedLists\DeleteFromMiddleTests.cs" />
+    <Compile Include="LinkedLists\PartitionListTests.cs" />
+    <Compile Include="LinkedLists\ReverseAdditionTests.cs" />
+    <Compile Include="LinkedLists\ForwardAddTests.cs" />
+    <Compile Include="LinkedLists\FindHeadOfCircularListTests.cs" />
+    <Compile Include="LinkedLists\IsPalindromeTests.cs" />
+    <Compile Include="Moderate\SwapWithoutVariableTests.cs" />
+    <Compile Include="Moderate\TicTacToeTests.cs" />
+    <Compile Include="Moderate\FindNumberOfTrailingZerosTests.cs" />
+    <Compile Include="Moderate\FindMaxTests.cs" />
+    <Compile Include="Moderate\MasterMindTests.cs" />
+    <Compile Include="Moderate\FindSubsequenceToSortTests.cs" />
+    <Compile Include="Moderate\ConvertIntToPhraseTests.cs" />
+    <Compile Include="Moderate\FindSubsequenceLargestSumTests.cs" />
+    <Compile Include="Moderate\Rand7Tests.cs" />
+    <Compile Include="Moderate\FindSumOfPairsTests.cs" />
+    <Compile Include="Moderate\ConvertTreeToListTests.cs" />
+    <Compile Include="Moderate\ParseNoStopTextTests.cs" />
+    <Compile Include="Moderate\XmlEncodingTests.cs" />
+    <Compile Include="Moderate\WordFrequencyTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecursionAndDynamicProgramming\CountNumberOfWaysUpStairsTests.cs" />
+    <Compile Include="RecursionAndDynamicProgramming\CountWaysFromTopLeftToBottomRightTests.cs" />
+    <Compile Include="RecursionAndDynamicProgramming\FindMagicIndexTests.cs" />
+    <Compile Include="RecursionAndDynamicProgramming\GetAllSubsetsTests.cs" />
+    <Compile Include="RecursionAndDynamicProgramming\GetAllPermutationsTests.cs" />
+    <Compile Include="RecursionAndDynamicProgramming\GetAllMatchedParenthesesTests.cs" />
+    <Compile Include="RecursionAndDynamicProgramming\PaintFillTests.cs" />
+    <Compile Include="RecursionAndDynamicProgramming\CountNumberOfWaysSumCentsTests.cs" />
+    <Compile Include="RecursionAndDynamicProgramming\EightQueensTests.cs" />
+    <Compile Include="RecursionAndDynamicProgramming\FindTallestStackTests.cs" />
+    <Compile Include="RecursionAndDynamicProgramming\CountWaysParenthesesTests.cs" />
+    <Compile Include="SortingAndSearching\MergeTwoSortedArraysTests.cs" />
+    <Compile Include="SortingAndSearching\SortAnagramsTests.cs" />
+    <Compile Include="SortingAndSearching\FindInRotatedArrayTests.cs" />
+    <Compile Include="SortingAndSearching\FindInArrayWithEmptyStringsTests.cs" />
+    <Compile Include="SortingAndSearching\FindInSortedMatrixTests.cs" />
+    <Compile Include="SortingAndSearching\FindSubsequenceOfPairsTests.cs" />
+    <Compile Include="SortingAndSearching\GetRankFromStreamTests.cs" />
+    <Compile Include="StacksAndQueues\SetOfStacksWithPopAtTests.cs" />
+    <Compile Include="StacksAndQueues\ThreeStacksWithOneArrayTests.cs" />
+    <Compile Include="StacksAndQueues\StackWithMinTests.cs" />
+    <Compile Include="StacksAndQueues\SetOfStacksTests.cs" />
+    <Compile Include="StacksAndQueues\TowerOfHanoiTests.cs" />
+    <Compile Include="StacksAndQueues\QueueWithTwoStacksTests.cs" />
+    <Compile Include="StacksAndQueues\SortStackWithStacksTests.cs" />
+    <Compile Include="StacksAndQueues\AnimalShelterQueueTests.cs" />
+    <Compile Include="TreesAndGraphs\IsBinaryTreeBalancedTests.cs" />
+    <Compile Include="TreesAndGraphs\FindPathBetweenNodesTests.cs" />
+    <Compile Include="TreesAndGraphs\BinaryTreeFromSortedArrayTests.cs" />
+    <Compile Include="TreesAndGraphs\BinaryTreeToLinkedListTests.cs" />
+    <Compile Include="TreesAndGraphs\IsBinarySearchTreeTests.cs" />
+    <Compile Include="TreesAndGraphs\FindInorderSuccessorTests.cs" />
+    <Compile Include="TreesAndGraphs\FindCommonAncestorTests.cs" />
+    <Compile Include="TreesAndGraphs\IsSubtreeTests.cs" />
+    <Compile Include="TreesAndGraphs\FindSumInBinaryTreeTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CsFx\CsFx.csproj">
+      <Project>{8a7e921b-f6ed-4c9a-b663-fac017920338}</Project>
+      <Name>CsFx</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Choose>
+    <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
+      <ItemGroup>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.CodedUITestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITest.Extension, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+        <Reference Include="Microsoft.VisualStudio.TestTools.UITesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+          <Private>False</Private>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

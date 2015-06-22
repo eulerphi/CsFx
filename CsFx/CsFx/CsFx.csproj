@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8A7E921B-F6ED-4C9A-B663-FAC017920338}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CsFx</RootNamespace>
+    <AssemblyName>CsFx</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MathNet.Numerics">
+      <HintPath>..\packages\MathNet.Numerics.3.5.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\CountInversions.cs" />
+    <Compile Include="Core\EditDistance.cs" />
+    <Compile Include="Core\MergeSort.cs" />
+    <Compile Include="Core\QuickSelect.cs" />
+    <Compile Include="Core\QuickSort.cs" />
+    <Compile Include="CtCI\ArraysAndStrings\Problem1.cs" />
+    <Compile Include="CtCI\ArraysAndStrings\Problem2.cs" />
+    <Compile Include="CtCI\ArraysAndStrings\Problem3.cs" />
+    <Compile Include="CtCI\ArraysAndStrings\Problem4.cs" />
+    <Compile Include="CtCI\ArraysAndStrings\Problem5.cs" />
+    <Compile Include="CtCI\ArraysAndStrings\Problem6.cs" />
+    <Compile Include="CtCI\ArraysAndStrings\Problem7.cs" />
+    <Compile Include="CtCI\ArraysAndStrings\Problem8.cs" />
+    <Compile Include="CtCI\Hard\CountTwosBetweenZeroAndN.cs" />
+    <Compile Include="CtCI\Hard\FindDistanceBetweenWords.cs" />
+    <Compile Include="CtCI\Hard\FindLongestWord.cs" />
+    <Compile Include="CtCI\Hard\FindSmallestSubset.cs" />
+    <Compile Include="CtCI\Hard\FindSubstrings.cs" />
+    <Compile Include="CtCI\Hard\RandomFromPool.cs" />
+    <Compile Include="CtCI\Hard\Shuffle.cs" />
+    <Compile Include="CtCI\Hard\TrackMedian.cs" />
+    <Compile Include="CtCI\LinkedLists\DeleteFromMiddle.cs" />
+    <Compile Include="CtCI\LinkedLists\FindHeadOfCircularList.cs" />
+    <Compile Include="CtCI\LinkedLists\ForwardAddition.cs" />
+    <Compile Include="CtCI\LinkedLists\IsPalindrome.cs" />
+    <Compile Include="CtCI\LinkedLists\KthElementFromEnd.cs" />
+    <Compile Include="CtCI\LinkedLists\LinkedListNode.cs" />
+    <Compile Include="CtCI\LinkedLists\PartitionList.cs" />
+    <Compile Include="CtCI\LinkedLists\RemoveDuplicates.cs" />
+    <Compile Include="CtCI\LinkedLists\ReverseAddition.cs" />
+    <Compile Include="CtCI\Moderate\ConvertIntToPhrase.cs" />
+    <Compile Include="CtCI\Moderate\ConvertTreeToList.cs" />
+    <Compile Include="CtCI\Moderate\FindMax.cs" />
+    <Compile Include="CtCI\Moderate\FindNumberOfTrailingZeros.cs" />
+    <Compile Include="CtCI\Moderate\FindSubsequenceLargestSum.cs" />
+    <Compile Include="CtCI\Moderate\FindSubsequenceToSort.cs" />
+    <Compile Include="CtCI\Moderate\FindSumOfPairs.cs" />
+    <Compile Include="CtCI\Moderate\MasterMind.cs" />
+    <Compile Include="CtCI\Moderate\ParseNoStopText.cs" />
+    <Compile Include="CtCI\Moderate\Rand7.cs" />
+    <Compile Include="CtCI\Moderate\SwapWithoutVariable.cs" />
+    <Compile Include="CtCI\Moderate\TicTacToe.cs" />
+    <Compile Include="CtCI\Moderate\WordFrequency.cs" />
+    <Compile Include="CtCI\Moderate\XmlEncoding.cs" />
+    <Compile Include="CtCI\RecursionAndDynamicProgramming\CountNumberOfWaysSumCents.cs" />
+    <Compile Include="CtCI\RecursionAndDynamicProgramming\CountNumberOfWaysUpStairs.cs" />
+    <Compile Include="CtCI\RecursionAndDynamicProgramming\CountWaysFromTopLeftToBottomRight.cs" />
+    <Compile Include="CtCI\RecursionAndDynamicProgramming\CountWaysParentheses.cs" />
+    <Compile Include="CtCI\RecursionAndDynamicProgramming\EightQueens.cs" />
+    <Compile Include="CtCI\RecursionAndDynamicProgramming\FindMagicIndex.cs" />
+    <Compile Include="CtCI\RecursionAndDynamicProgramming\FindTallestStack.cs" />
+    <Compile Include="CtCI\RecursionAndDynamicProgramming\GetAllMatchedParentheses.cs" />
+    <Compile Include="CtCI\RecursionAndDynamicProgramming\GetAllPermutations.cs" />
+    <Compile Include="CtCI\RecursionAndDynamicProgramming\GetAllSubsets.cs" />
+    <Compile Include="CtCI\RecursionAndDynamicProgramming\PaintFill.cs" />
+    <Compile Include="CtCI\Shared\Pair.cs" />
+    <Compile Include="CtCI\Shared\Point.cs" />
+    <Compile Include="CtCI\Shared\SuffixTreeNode.cs" />
+    <Compile Include="CtCI\SortingAndSearching\FindInArrayWithEmptyStrings.cs" />
+    <Compile Include="CtCI\SortingAndSearching\FindInRotatedArray.cs" />
+    <Compile Include="CtCI\SortingAndSearching\FindInSortedMatrix.cs" />
+    <Compile Include="CtCI\SortingAndSearching\GetRankFromStream.cs" />
+    <Compile Include="CtCI\SortingAndSearching\MergeTwoSortedArrays.cs" />
+    <Compile Include="CtCI\SortingAndSearching\SortAnagrams.cs" />
+    <Compile Include="CtCI\SortingAndSearching\FindSubsequenceOfPairs.cs" />
+    <Compile Include="CtCI\StacksAndQueues\AnimalShelterQueue.cs" />
+    <Compile Include="CtCI\StacksAndQueues\QueueWithTwoStacks.cs" />
+    <Compile Include="CtCI\StacksAndQueues\SetOfStacks.cs" />
+    <Compile Include="CtCI\StacksAndQueues\SetOfStacksWithPopAt.cs" />
+    <Compile Include="CtCI\StacksAndQueues\SortStackWithStacks.cs" />
+    <Compile Include="CtCI\StacksAndQueues\StackWithMin.cs" />
+    <Compile Include="CtCI\StacksAndQueues\ThreeStacksWithOneArray.cs" />
+    <Compile Include="CtCI\StacksAndQueues\TowerOfHanoi.cs" />
+    <Compile Include="CtCI\TreesAndGraphs\BinaryTreeFromSortedArray.cs" />
+    <Compile Include="CtCI\TreesAndGraphs\BinaryTreeNodeWithParent.cs" />
+    <Compile Include="CtCI\TreesAndGraphs\BinaryTreeNode.cs" />
+    <Compile Include="CtCI\TreesAndGraphs\BinaryTreeToLinkedList.cs" />
+    <Compile Include="CtCI\TreesAndGraphs\FindCommonAcestor.cs" />
+    <Compile Include="CtCI\TreesAndGraphs\FindInorderSuccessor.cs" />
+    <Compile Include="CtCI\TreesAndGraphs\FindPathBetweenGraphNodes.cs" />
+    <Compile Include="CtCI\TreesAndGraphs\FindSumInBinaryTree.cs" />
+    <Compile Include="CtCI\TreesAndGraphs\GraphNode.cs" />
+    <Compile Include="CtCI\TreesAndGraphs\IsBinarySearchTree.cs" />
+    <Compile Include="CtCI\TreesAndGraphs\IsBinaryTreeBalanced.cs" />
+    <Compile Include="CtCI\TreesAndGraphs\IsSubtree.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
