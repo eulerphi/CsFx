@@ -77,7 +77,6 @@ namespace epi.hashes {
                 }
 
                 latestOccurrence[idx] = i;
-                
                 var length = shortestSubarrayLength.Last();
                 if (length < min) {
                     min = length;
@@ -87,6 +86,55 @@ namespace epi.hashes {
             }
 
             return Tuple.Create(start, end);
+        }
+
+        public static Tuple<int, int> GetBrute(string[] text, string[] pattern) {
+            var result = Tuple.Create(-1, -1);
+            var resultLength = Int32.MaxValue;
+
+            for (var start = 0; start < text.Length; start++) {
+                for (var end = start + 1; end < text.Length; end++) {
+                    var patternIndex = 0;
+                    for (var i = start; i <= end && patternIndex < pattern.Length; i++) {
+                        if (text[i] == pattern[patternIndex]) {
+                            patternIndex++;
+                        }
+                    }
+
+                    var foundPattern = pattern.Length == patternIndex;
+                    var digestLength = end - start;
+                    if (foundPattern && digestLength < resultLength) {
+                        result = Tuple.Create(start, end);
+                        resultLength = digestLength;
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        public static Tuple<int, int> GetBrute2(string[] text, string[] pattern) {
+            var result = Tuple.Create(-1, -1);
+            var resultLength = Int32.MaxValue;
+
+            for (var start = 0; start < text.Length; start++) {
+                var patternIndex = 0;
+                var end = start;
+                for (; end < text.Length && patternIndex < pattern.Length; end++) {
+                    if (text[end] == pattern[patternIndex]) {
+                        patternIndex++;
+                    }
+                }
+
+                var foundPattern = pattern.Length == patternIndex;
+                var digestLength = end - start;
+                if (foundPattern && digestLength < resultLength) {
+                    result = Tuple.Create(start, end);
+                    resultLength = digestLength;
+                }
+            }
+
+            return result;
         }
     }
 }

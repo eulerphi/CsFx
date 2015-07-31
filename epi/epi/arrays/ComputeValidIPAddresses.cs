@@ -6,6 +6,44 @@ using System.Threading.Tasks;
 
 namespace epi.arrays {
     class ComputeValidIPAddresses {
+        public static void Run() {
+            var input = "25511";
+            var builder = new StringBuilder();
+            var result = new List<String>();
+            Compute2(input, 3, builder, result);
+        }
+
+        private static void Compute2(string s, int count, StringBuilder builder, IList<string> result) {
+            var last = count == 0;
+            var length = builder.Length;
+
+            foreach (var p in GetAllBytes(s)) {
+                if (last && p.Item2.Any()) continue;
+
+                builder.Append(p.Item1);
+                if (last) {
+                    result.Add(builder.ToString());
+                } else {
+                    builder.Append('.');
+                    Compute2(p.Item2, count - 1, builder, result);
+                }
+
+                builder.Length = length;
+            }
+        }
+
+        private static IEnumerable<Tuple<byte, string>> GetAllBytes(string s) {
+            if (string.IsNullOrEmpty(s)) yield break;
+            if (s.First() == '0') yield break;
+
+            for (var i = 1; i <= 3 && i <= s.Length; i++) {
+                byte result;
+                if (byte.TryParse(s.Substring(0, i), out result)) {
+                    yield return Tuple.Create(result, s.Substring(i));
+                }
+            }
+        }
+
         public static IList<string> Compute(string value) {
             var result = new List<string>();
             var parts = new string[4];

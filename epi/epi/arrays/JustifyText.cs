@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace epi.arrays {
     class JustifyText {
+        public static void Run() {
+            var input = "Thererere quick brown fox jumped over the lazy dog.".Split(' ');
+            var len = 11;
+            var result = Justify2(input, len);
+        }
+
+        #region Version 1
         public static IList<string> Justify(string[] words, int maxLineLength) {
             var lines = new List<string>();
 
@@ -71,5 +78,91 @@ namespace epi.arrays {
             builder.Append(words[end]);
             return builder.ToString();
         }
+        #endregion
+
+        #region Version 2
+        public static IList<string> Justify2(string[] words, int maxLen) {
+            var result = new List<string>();
+
+            var line = new Line(words, 0, maxLen);
+
+            for (var i = 1; i < words.Length; i++) {
+                if (!line.TryAddWord(i)) {
+                    result.Add(line.Justify(GetLineSpaces));
+                    line = new Line(words, i, maxLen);
+                }
+            }
+
+            result.Add(line.Justify(GetLastLineSpaces));
+
+            return result;
+        }
+
+        private static IEnumerable<int> GetLineSpaces(int numWords, int len, int maxLen) {
+            var numGaps = numWords - 1;
+            var spacesLeft = maxLen - len + numGaps;
+
+            for (var i = 0; i < numGaps; i++) {
+                var numSpaces = spacesLeft / (numGaps - i);
+                numSpaces += spacesLeft % (numGaps - i) != 0 ? 1 : 0;
+                spacesLeft -= numSpaces;
+                yield return numSpaces;
+            }
+
+            yield return spacesLeft;
+        }
+
+        private static IEnumerable<int> GetLastLineSpaces(int numWords, int len, int maxLen) {
+            var numGaps = numWords - 1;
+            var last = maxLen - len;
+            return Enumerable
+                .Repeat(1, numGaps)
+                .Concat(new[] { last })
+                .ToArray();
+        }
+
+        private class Line {
+            private string[] words;
+            private int start, end, curLen, maxLen;
+
+            public Line(string[] words, int start, int maxLen) {
+                this.words = words;
+                this.start = start;
+                this.end = start;
+                this.curLen = words[start].Length;
+                this.maxLen = maxLen;
+
+                if (this.curLen > this.maxLen) {
+                    throw new ArgumentException();
+                }
+            }
+
+            public bool TryAddWord(int i) {
+                var newLen = curLen + words[i].Length + 1;
+
+                var canAdd = newLen <= maxLen;
+                if (canAdd) {
+                    curLen = newLen;
+                    end = i;
+                }
+
+                return canAdd;
+            }
+
+            public string Justify(Func<int, int, int, IEnumerable<int>> getSpaces) {
+                var builder = new StringBuilder();
+
+                var numWords = end - start + 1;
+                var spaces = getSpaces(numWords, curLen, maxLen);
+                var pairs = words.Skip(start).Take(numWords).Zip(spaces, Tuple.Create);
+                foreach (var p in pairs) {
+                    builder.Append(p.Item1);
+                    builder.Append(' ', p.Item2);
+                }
+
+                return builder.ToString();
+            }
+        }
+        #endregion
     }
 }

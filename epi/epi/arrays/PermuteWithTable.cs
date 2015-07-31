@@ -6,6 +6,32 @@ using System.Threading.Tasks;
 
 namespace epi.arrays {
     class PermuteWithTable {
+        public static void Run() {
+            for (var t = 0; t < 1000; t++) {
+                var xs = Enumerable.Range(0, 5).ToArray();
+                var ps = Enumerable.Range(0, 5).ToArray();
+
+                var rand = new Random();
+                for (var i = 0; i < ps.Length; i++) {
+                    var j = rand.Next(ps.Length - i);
+                    var temp = ps[i];
+                    ps[i] = ps[j];
+                    ps[j] = temp;
+                }
+
+                var xsp = xs.ToArray();
+                var psp = ps.ToArray();
+                Permute(xs, ps);
+                PermuteBook(xsp, psp);
+
+                for (var m = 0; m < xs.Length; m++) {
+                    if (xs[m] != xsp[m]) {
+                        throw new Exception();
+                    }
+                }
+            }
+        }
+
         public static void Permute(int[] xs, int[] ps) {
             for (var i = 0; i < xs.Length; ) {
                 if (ps[i] == i) {
