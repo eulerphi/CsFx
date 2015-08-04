@@ -42,6 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="hard\orders.cs" />
+    <Compile Include="hard\teamsel.cs" />
+    <Compile Include="medium\coins.cs" />
+    <Compile Include="medium\marbles.cs" />
+    <Compile Include="medium\prime1.cs" />
+    <Compile Include="peer\dce05.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
