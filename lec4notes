@@ -1,0 +1,100 @@
+A in ACID?
+Atomicity
+
+Atomicity guarentees?
+Either all operations succeed or none of them
+
+Given a failure free computer, is atomicity free?
+No, an application might back out part way through the transaction. For example, +100 from account A, then realize that account B doesn't have succifient funds.
+
+C in ACID?
+Consistency
+
+What is consistency?
+State transitions start from a consistent state and end in a consistent state. For example, every employee must have a salary. Requires database has understanding of the semantics of the data.
+
+I in ACID?
+Isolation
+
+What is isolation?
+Concurrent transactions appear to execute sequentially.
+
+D in ACID?
+Durability
+
+What is durability?
+Once a transaction commits, then even after a machine restart the transaction side effects are there.
+
+What about durability when disks fail?
+RAID or replication.
+
+When is data durable?
+When the data is stored on secondary storage that doesn't require a power source.
+
+Transfer()
+01: A_bal := Read(A)
+02: A_bal := A.bal - $50
+03: Write(A, A_bal)
+04: B_bal := Read(B)
+05: B_bal := B.bal + $50
+06: Write(B, B_bal)
+07: Commit()
+
+Crash between 00 & 01?
+Client nevers receives commit message so you know transaction didn't succeed.
+?=== What if client fails? ===?
+
+Crash between 02 & 03?
+Only in memory has changed. Persisted version is correct.
+
+Crash between 03 & 04?
+Account A loses $50 and it vanishes.
+
+Crash during 03?
+Data corruption since step 03 isn't necessarily atomic.
+
+Crash after 06?
+Safe for transaction to commit or abort. Depends on whether commit message was written to disk.
+
+ReportSum()
+01: A_bal := Read(A)
+02: B_bal := Read(B)
+03: Print(A_bal + B_bal)
+
+What if run ReportSum 01-03 in between Transfer 01 & 02?
+No side effects from Transfer. As though ReportSum ran first, Transfer second.
+
+What if run ReportSum 01-03 in between Transfer 03 & 04?
+Inconsistent state since side effects for A but not for B. Application invariant is violated.
+
+What if run ReportSum 01-03 in between Transfer 06 & 07?
+Application invariant upheld but transaction could still abort. ReportSum shows imaginary numbers.
+?=== Nested transaction problem is mentioned @32:06 ===?
+
+What if run ReportSum 01 between Transfer 02 & 03 and ReportSum 02-03 between T05&06?
+Same as ReportSum then Transfer.
+
+What is a conflict between transactions?
+Two operations to a data element and at least one is a write.
+
+What are the conflicts between Transfer and ReportSum?
+T03 & RS01 and T06 & RS02.
+
+What is required for transactions to run concurrently?
+Conflicts between transactions are ordered consistently.
+
+What is serializability?
+The side effects of transactions adhere to some sequential ordering of transactions.
+
+@36:21
+
+
+
+
+
+
+
+
+
+
+
