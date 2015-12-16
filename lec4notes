@@ -86,10 +86,85 @@ Conflicts between transactions are ordered consistently.
 What is serializability?
 The side effects of transactions adhere to some sequential ordering of transactions.
 
-@36:21
+
+What is a transaction operation schedule?
+Partial ordering of the operations performed by a set of transactions
+
+Why is a schedule only partially ordered?
+Non-conflicting operations can be concurrent (e.g. reads and non-conflicting writes)
+
+What is the difference between a partial order vs a total order?
+In a total order, all items can be ordered. In partial order, some items can be concurrent.
+
+When are two schedules equivalent?
+When the order of the conflicting operations are the same.
+
+Serial schedule: r0[A] -> w0[A] -> r0[B] -> w0[B] -> c0 -> r1[A] -> r1[B] -> c1?
+Yes, there is no interleaving of operations.
 
 
+Serial schedule: r0[A] -> w0[A] -> r1[A] -> r0[B] -> w0[B] -> c0 -> r1[B] -> c1?
+Yes, the order of the conflicting operations (w0[A] & r1[A] and w0[B] & r1[B]) are the same as the non-interleaved ordering where t0 finishes first.
 
+
+Serial schedule: r0[A] -> w0[A] -> r1[A] -> r1[B] -> c1 -> r0[B] -> w0[B] -> c0?
+No, the order of w0[A] & r1[A] and w0[B] & r1[B] are not consistent (first: t0 -> t1, second: t1 -> t0)
+
+What is required to get isolation in ACID?
+Serialiazable schedules.
+
+How to get serializable schedules?
+Locking.
+
+Enforces isolation: before r/w take lock after r/w release lock?
+No, r0[A] -> w0[A] -> r1[A] -> r1[B] -> c1 -> r0[B] -> w0[B] -> c0
+
+Enforces isolation: start of tx take locks for all r/w, release after commit?
+Yes, but txs that have conflicts will not interleave operations (not allowed: r0[A] -> w0[A] -> r1[A] -> r0[B] -> w0[B] -> c0 -> r1[B] -> c1)
+
+What is two-plase locking?
+In the acquire locks phase, grab r/w lock as needed. Only enter release locks phase when no additional locks will be acquired. Release locks when no longer needed.
+
+What type of schedules does two-phase locking guarentee?
+Serializable schedules
+
+Are all serializable schedules obtainable with two-phase locking?
+No
+
+What is an example of a serializable schedule that two-phase locking prevents?
+r0[A] -> w0[A] -> r1[A] -> r0[B] -> w0[B] -> c0 -> r1[B] -> c1
+
+Does two-phase locking avoid deadlocks?
+No, w0[A] -> w1[B] -> w0[B] -> w1[A]
+
+Databases have in-memory and on-disk representations, how to ensure durability?
+Write-ahead log of undo or redo operations.
+
+When is an undo needed in a write-ahead log?
+On-disk data is changed before commit (might happen when working set doesn't fit in memory)
+
+When is a redo needed in a write-ahead log?
+In-memory data is changed but on-disk isn't. Redo to ensure change in event of crash.
+
+Are undos/redos in write-ahead log always valid?
+No unless there is a commit for the tx in write-ahead log.
+
+Why does write-ahead log provide atomicity?
+Undo and redo operations will ensure that on-disk data either applies missing changes (redos) or removes aborted changes (undos). Thus either the entire tx is applied or nothing.
+
+How to ensure that commit in write-ahead log is atomic?
+Only report tx success when buffer is flushed to disk.
+
+What is an approach to get atomicity and durability in ACID?
+Use write-ahead log.
+
+
+Scenario: Partitioned database. Each partition is ACID.
+
+If tx spans partitions, can client send commit to each part to ensure distributed tx?
+No, ptx0 succeeds but ptx1 aborts. Now side effects of ptx0 are visible even though distributed tx has aborted.
+
+@710
 
 
 
