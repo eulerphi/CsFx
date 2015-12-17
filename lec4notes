@@ -164,12 +164,99 @@ Scenario: Partitioned database. Each partition is ACID.
 If tx spans partitions, can client send commit to each part to ensure distributed tx?
 No, ptx0 succeeds but ptx1 aborts. Now side effects of ptx0 are visible even though distributed tx has aborted.
 
-@710
+Why does a distributed transaction require at least two phases?
+The first phase must ask the participants if they can commit.
+
+What is an atomic commitment protocol?
+A protocol where there is one single moment in time that transitions all participants from pre-commit to post-commit.
+
+Why is an single node ACID tx an atomic commitment protocol?
+The single moment in time that transitions pre to post-commit is when a commit message is writtent to the write-ahead log.
+
+Atomic commitment protocol: what guarantees if all processes reach a decision?
+That they reach the same decision.
 
 
+Atomic commitment protocol: can a process change its decision?
+No, once a process has reached a decision it cannot change it. This would violate atomicity and durability.
 
 
+Atomic commitment protocol: what happens if a single process votes "NO"?
+The tx must be aborted otherwise atomicity is lost.
 
 
+Atomic commitment protocol: what is the decision if there are no failures and all processes vote "YES"?
+The decision will be "COMMIT" (rules out the trivial abort implementation).
+
+Atomic commitment protocol: after failure when will all proceses eventually reach a decision?
+If all failures are repaired and no new failures occur for a sufficiently long period.
+
+What is the uncertainty period?
+In 2PC, if a node votes "YES" then it can no longer unilaterally abort. Instead it must wait until hearing from the coordinator. This time period is the uncertainty period.
+
+What is independent recovery?
+The ability for a failed node to recover with only local state.
+
+Is independent recovery possible in atomic commitment procotols?
+Not in all cases. If in an uncertainty period, then the node cannot just abort. Instead it must communicate with another node but due to the impossibility result this communication might be delayed arbitrarally long.
+
+Atomic commitment protocol: is it guarenteed that all processes will eventually reach a decision?
+No, a node could fail forever or repeatably fail.
 
 
+Atomic commitment protocol: will all non-faulty processes eventually reach a decision?
+No, non-faulty processes might depend upon faulty processes.
+
+
+Atomic commitment protocol: if all processes vote YES then a commit decision be reached?
+No, network failures (lost packets or timeouts) can prevent the coordinator from seeing all the votes. In these cases, the coordinator must abort.
+
+2PC
+1. Coordinator sends PREPARE to all participants
+2. When a participant receives a PREPARE, it responds with a YES o NO. If the participant votes NO, it can immediately abort
+3. Coordinator collects votes
+	-if all were YES (including coordinators) then coordinator (a) decides to COMMIT (b) sends COMMIT messages to each participant
+	-otherwise: (c) decides to ABORT, (d) sends ABORT messages to each participant that voted YES
+4. Participants that voted YES wait for message from coordinator. When it receives one, it decides accordingly and stops
+
+What if a process never receives a PREPARE message?
+It can always abort outside of the uncertainty period.
+
+What if coordinator doesn't recieve votes from all processes before timeout?
+It should just abort (assume that unreceived votes are NOs).
+
+What if a participant votes YES and timeouts waiting for a COMMIT/ABORT decision?
+This is the uncertainty period. Must wait for confirmation from either coordinator or other process.
+
+Can a participant make a decision if it knows that the coordinator is down and all other participants are in their uncertainty period?
+No, the coordinator can still come up and issue a decision.
+
+What is the atomic moment in time when 2PC commits?
+When the coordinator stores the COMMIT decision to disk.
+
+Does the coordinator have to record that it sent PREPARE to all participants?
+Can safely abort after failure.
+
+Does a participant have to record that it is voting YES?
+Yes, since it must know that it is in the uncertainty period after failure.
+
+What does a participant guarentee when it votes YES?
+That it will accept the decision from the coordinator.
+
+Does a participant have to record that it is voting NO?
+Unless there is a YES recorded then a participant can just abort after failure.
+
+Does the coordinator have to record YES votes?
+No, can safely assume ABORT after failure?
+
+Does the coordinator have record anything before sending COMMIT messages to participants?
+Yes it must store a COMMIT message before sending COMMIT message to any participants. Otherwise atomicity and durability are violated.
+
+Does the coordinator have to record anything before sending ABORT messages to participants?
+No, can safely assume ABORT after failure.
+
+When is it safe for a participant to prune its write-ahead log in 2PC?
+After it has enacted all side effects. It can be useful to preserve COMMITs so that other participants can ask for decision when coordinator is unavailable.
+
+When is it safe for the coordinator to prune its write-ahead log in 2PC?
+It can prune non-COMMITs after enacting side effects. It can prune COMMITs after side effects are enacted across all participants.
