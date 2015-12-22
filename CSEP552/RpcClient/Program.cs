@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Common;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,8 +15,18 @@ namespace RpcClient
     {
         static void Main(string[] args)
         {
-            Foo("1");
-            Foo("2");
+            //Foo("1");
+            //Foo("2");
+
+            var request = new PreSetRequest {
+                TransactionId = Guid.NewGuid(),
+                Key = "SomeKey",
+                Value = "SomeValue"
+            };
+
+            var ser = JsonConvert.SerializeObject(request);
+            var deB = JsonConvert.DeserializeObject<BaseMessage>(ser);
+            var de = JsonConvert.DeserializeObject<PreSetRequest>(ser);
 
             Console.Read();
         }
