@@ -16,7 +16,7 @@ namespace Replica
             var listener = new TcpListener(ep);
 
             listener.Start();
-            while(true)
+            while (true)
             {
                 listener.AcceptTcpClientAsync()
                         .ContinueWith(Handle, TaskContinuationOptions.OnlyOnRanToCompletion);
@@ -27,17 +27,28 @@ namespace Replica
         {
             var buffer = new byte[1024];
 
-            var stream = openClientTask.Result.GetStream();
-            var offset = 0;
-            while (stream.DataAvailable)
+            using (var client = openClientTask.Result)
             {
-                var n = stream.Read(buffer, offset, buffer.Length);
-                offset += n;
+                var stream = client.GetStream();
+                while (stream.CanRead && stream.CanWrite)
+                {
+                    Read(stream, buffer, 2);
+                    var messageLength = BitConverter.ToInt32(buffer, 0);
 
-                var message = Encoding.ASCII.GetString(buffer, 0, n);
-                Console.WriteLine(message);
+                    Read(stream, buffer, messageLength);
+                    var message = Encoding.ASCII.GetString(buffer, 0, messageLength);
+                    Console.WriteLine(message);
+                }
             }
+        }
 
+        private static void Read(NetworkStream stream, byte[] buffer, int length)
+        {
+            var n = 0;
+            do
+            {
+                n += stream.Read(buffer, n, length - n);
+            } while (n < length);
         }
     }
 }
