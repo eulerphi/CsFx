@@ -15,18 +15,8 @@ namespace RpcClient
     {
         static void Main(string[] args)
         {
-            //Foo("1");
+            Foo("1");
             //Foo("2");
-
-            var request = new PreSetRequest {
-                TransactionId = Guid.NewGuid(),
-                Key = "SomeKey",
-                Value = "SomeValue"
-            };
-
-            var ser = JsonConvert.SerializeObject(request);
-            var deB = JsonConvert.DeserializeObject<BaseMessage>(ser);
-            var de = JsonConvert.DeserializeObject<PreSetRequest>(ser);
 
             Console.Read();
         }
@@ -37,18 +27,25 @@ namespace RpcClient
             var client = new TcpClient();
             client.Connect(ep);
             var stream = client.GetStream();
+            var netClient = new NetworkClient(stream);
 
-            Write(stream, "Hello, World! " + id);
-            Thread.Sleep(5000);
-            Write(stream, "This is an another message! " + id);
-        }
+            var getRequest = new GetValueRequest {
+                Key = "foo"
+            };
 
-        private static void Write(NetworkStream stream, string message)
-        {
-            var messageBuffer = Encoding.UTF8.GetBytes(message);
-            var lengthBuffer = BitConverter.GetBytes((ushort)messageBuffer.Length);
-            stream.Write(lengthBuffer, 0, lengthBuffer.Length);
-            stream.Write(messageBuffer, 0, messageBuffer.Length);
+            netClient.Write(getRequest);
+            var response = netClient.Read();
+
+            var setRequest = new PreSetRequest {
+                Key = "foo",
+                Value = "moo"
+            };
+
+            netClient.Write(setRequest);
+            response = netClient.Read();
+
+            netClient.Write(getRequest);
+            response = netClient.Read();
         }
     }
 }

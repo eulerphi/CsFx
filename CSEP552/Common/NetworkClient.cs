@@ -8,35 +8,22 @@ using System.Threading.Tasks;
 
 namespace Common
 {
-    public class MessageResolver {
-        private readonly string message;
-
-        public string Type { get; set; }
-
-        public MessageResolver(string message, string type) {
-            this.message = message;
-            Type = type;
-        }
-
-        public T Resolve<T>() {
-            return JsonConvert.DeserializeObject<T>(message);
-        }
-    }
-
     public class NetworkClient
     {
         private const int ReadBufferLength = 1024;
         private const int UShortLength = 2;
-        private readonly NetworkStream stream;
         private readonly byte[] readBuffer;
+        private readonly MessageResolver resolver;
+        private readonly NetworkStream stream;
 
         public NetworkClient(NetworkStream stream)
         {
             this.stream = stream;
             readBuffer = new byte[ReadBufferLength];
+            resolver = new MessageResolver();
         }
 
-        public MessageResolver Read()
+        public BaseMessage Read()
         {
             ReadIntoBuffer(UShortLength);
             var length = BitConverter.ToUInt16(readBuffer, 0);
@@ -44,17 +31,21 @@ namespace Common
             ReadIntoBuffer(length);
             var message = Encoding.UTF8.GetString(readBuffer, 0, length);
 
-            var baseMessage = JsonConvert.DeserializeObject<BaseMessage>(message);
-            return new MessageResolver(message, baseMessage.Type);
+            var envelope = JsonConvert.DeserializeObject<MessageEnvelope>(message);
+            return resolver.Resolve(envelope);
         }
 
-        public void Write(object value)
+        public void Write(BaseMessage message)
         {
-            var message = JsonConvert.SerializeObject(value);
-            var messageBuffer = Encoding.UTF8.GetBytes(message);
-            var lengthBuffer = BitConverter.GetBytes((ushort)messageBuffer.Length);
+            var envelope = new MessageEnvelope {
+                Type = message.Type,
+                Message = JsonConvert.SerializeObject(message)
+            };
+            var serializedEnvelope = JsonConvert.SerializeObject(envelope);
+            var envelopeBuffer = Encoding.UTF8.GetBytes(serializedEnvelope);
+            var lengthBuffer = BitConverter.GetBytes((ushort)envelopeBuffer.Length);
             stream.Write(lengthBuffer, 0, lengthBuffer.Length);
-            stream.Write(messageBuffer, 0, messageBuffer.Length);
+            stream.Write(envelopeBuffer, 0, envelopeBuffer.Length);
         }
 
         private void ReadIntoBuffer(int length)

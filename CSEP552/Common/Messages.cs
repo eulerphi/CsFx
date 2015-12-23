@@ -1,12 +1,23 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Common {
-    public class BaseMessage {
+    public class MessageEnvelope {
         public string Type { get; set; }
+        public string Message { get; set; }
+
+        public T Resolve<T>() {
+            return JsonConvert.DeserializeObject<T>(this.Message);
+        }
+    }
+
+    public class BaseMessage {
+        [JsonIgnore]
+        public string Type { get; }
 
         public BaseMessage(string type) {
             this.Type = type;
