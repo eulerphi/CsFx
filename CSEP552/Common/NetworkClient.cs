@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Common
 {
-    public class NetworkClient
+    public class NetworkClient : IDisposable
     {
         private const int ReadBufferLength = 1024;
         private const int UShortLength = 2;
@@ -23,7 +24,16 @@ namespace Common
             resolver = new MessageResolver();
         }
 
-        public BaseMessage Read()
+        public static NetworkClient ForEndpoint(IPEndPoint endpoint) {
+            var tcpClient = new TcpClient();
+            tcpClient.Connect(endpoint);
+            return new NetworkClient(tcpClient.GetStream());
+        }
+
+        public T Read<T>() where T : IMessage {
+            return (T)Read();
+        }
+        public IMessage Read()
         {
             ReadIntoBuffer(UShortLength);
             var length = BitConverter.ToUInt16(readBuffer, 0);
@@ -35,7 +45,7 @@ namespace Common
             return resolver.Resolve(envelope);
         }
 
-        public void Write(BaseMessage message)
+        public void Write(IMessage message)
         {
             var envelope = new MessageEnvelope {
                 Type = message.Type,
@@ -56,6 +66,10 @@ namespace Common
             {
                 n += stream.Read(readBuffer, n, length - n);
             } while (n < length);
+        }
+
+        public void Dispose() {
+            stream.Dispose();
         }
     }
 }

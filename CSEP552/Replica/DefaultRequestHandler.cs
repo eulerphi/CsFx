@@ -16,12 +16,13 @@ namespace Replica {
 
         public static DefaultRequestHandler ForConnection(SQLiteConnection connection) {
             return new DefaultRequestHandler(new List<IRequestHandler> {
+                DeleteHandler.ForConnection(connection),
                 GetHandler.ForConnection(connection),
                 SetHandler.ForConnection(connection)
             });
         }
 
-        public bool TryHandle(BaseMessage request, out BaseMessage response) {
+        public bool TryHandle(IMessage request, out IMessage response) {
             response = null;
 
             foreach (var h in handlers) {

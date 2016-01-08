@@ -9,23 +9,25 @@ using System.Data;
 
 namespace Replica {
     class GetHandler : IRequestHandler {
-        private readonly Func<string, string> get;
+        private readonly Func<GetValueRequest, string> get;
 
-        public GetHandler(Func<string, string> get) {
+        public GetHandler(Func<GetValueRequest, string> get) {
             this.get = get;
         }
 
         public static GetHandler ForConnection(SQLiteConnection connection) {
-            return new GetHandler(id => Get(connection, id));
+            return new GetHandler(r => Get(connection, r));
         }
 
         public GetValueResponse Get(GetValueRequest request) {
+            var value = get(request);
+
             return new GetValueResponse {
-                Value = get(request.Key)
+                Value = value
             };
         }
 
-        public bool TryHandle(BaseMessage request, out BaseMessage response) {
+        public bool TryHandle(IMessage request, out IMessage response) {
             response = null;
 
             if (request.Type == GetValueRequest.TypeName) {
@@ -35,23 +37,9 @@ namespace Replica {
             return response != null;
         }
 
-        private static string Get(SQLiteConnection connection, string id) {
-            using (var tx = connection.BeginTransaction(IsolationLevel.ReadCommitted)) {
-                var selectSql = "SELECT value FROM keyvalues WHERE key=$key";
-
-                var command = new SQLiteCommand(selectSql, connection, tx);
-                command.Parameters.AddWithValue("$key", id);
-                var result = command.ExecuteScalar();
-
-                tx.Commit();
-
-                var dbNull = result as DBNull;
-                if (dbNull != null) {
-                    return null;
-                }
-
-                return (string)result;
-            }
+        private static string Get(SQLiteConnection connection, GetValueRequest request) {
+            var manager = KeyValueManager.ForConnection(connection);
+            return manager.GetValue(request.Key);
         }
     }
 }

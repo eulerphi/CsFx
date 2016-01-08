@@ -9,43 +9,37 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RpcClient
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
+namespace RpcClient {
+    class Program {
+        static void Main(string[] args) {
             Foo("1");
-            //Foo("2");
 
             Console.Read();
         }
 
-        static void Foo(string id)
-        {
-            var ep = new IPEndPoint(IPAddress.Loopback, 1444);
-            var client = new TcpClient();
-            client.Connect(ep);
-            var stream = client.GetStream();
-            var netClient = new NetworkClient(stream);
+        static void Foo(string id) {
+            var endpoint = new IPEndPoint(IPAddress.Loopback, 1112);
+            var replica = KeyValueReplica.ForEndpoint(endpoint);
 
-            var getRequest = new GetValueRequest {
-                Key = "foo"
-            };
+            var fooKey = "foo";
 
-            netClient.Write(getRequest);
-            var response = netClient.Read();
+            var fooValue = replica.Get(fooKey);
 
-            var setRequest = new PreSetRequest {
-                Key = "foo",
-                Value = "moo"
-            };
+            using (var tx = replica.StartTransaction()) {
+                if (tx.TrySet(fooKey, "moo")) {
+                    tx.Commit();
+                }
+            }
 
-            netClient.Write(setRequest);
-            response = netClient.Read();
+            var fooValue2 = replica.Get(fooKey);
 
-            netClient.Write(getRequest);
-            response = netClient.Read();
+            using (var tx = replica.StartTransaction()) {
+                if (tx.TryDelete(fooKey)) {
+                    tx.Commit();
+                }
+            }
+
+            var fooValue3 = replica.Get(fooKey);
         }
     }
 }

@@ -6,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace Common {
     public class MessageResolver {
-        public BaseMessage Resolve(MessageEnvelope envelope) {
+        public IMessage Resolve(MessageEnvelope envelope) {
             switch(envelope.Type) {
+                case AbortRequest.TypeName:
+                    return envelope.Resolve<AbortRequest>();
+                case AbortResponse.TypeName:
+                    return envelope.Resolve<AbortResponse>();
+                case CommitRequest.TypeName:
+                    return envelope.Resolve<CommitRequest>();
+                case CommitResponse.TypeName:
+                    return envelope.Resolve<CommitResponse>();
                 case GetValueRequest.TypeName:
                     return envelope.Resolve<GetValueRequest>();
                 case GetValueResponse.TypeName:

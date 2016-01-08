@@ -38,7 +38,7 @@ namespace Replica {
                 do {
                     var request = netClient.Read();
 
-                    BaseMessage response;
+                    IMessage response;
                     if (!handler.TryHandle(request, out response)) {
                         throw new ArgumentOutOfRangeException("request");
                     }

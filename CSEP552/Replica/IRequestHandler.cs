@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace Replica {
     public interface IRequestHandler {
-        bool TryHandle(BaseMessage request, out BaseMessage response);
+        bool TryHandle(IMessage request, out IMessage response);
     }
 }

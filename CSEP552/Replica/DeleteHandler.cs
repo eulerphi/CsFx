@@ -1,33 +1,33 @@
-﻿using Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common;
+using System.Data.SQLite;
+using System.Data;
 
 namespace Replica {
-    class SetHandler : IRequestHandler {
+    class DeleteHandler : IRequestHandler {
         private readonly Func<CommitRequest, bool> commit;
-        private readonly Func<PreSetRequest, bool> preSet;
+        private readonly Func<PreDeleteRequest, bool> preDelete;
 
-        public SetHandler(
+        public DeleteHandler(
             Func<CommitRequest, bool> commit,
-            Func<PreSetRequest, bool> preSet) {
+            Func<PreDeleteRequest, bool> preDelete) {
 
             this.commit = commit;
-            this.preSet = preSet;
+            this.preDelete = preDelete;
         }
 
-        public static SetHandler ForConnection(SQLiteConnection connection) {
-            return new SetHandler(
+        public static DeleteHandler ForConnection(SQLiteConnection connection) {
+            return new DeleteHandler(
                 r => Commit(connection, r),
-                r => PreSet(connection, r));
+                r => PreDelete(connection, r));
         }
 
         public CommitResponse Commit(CommitRequest request) {
-            if (!request.IsSetAction) {
+            if (!request.IsDeleteAction) {
                 throw new ArgumentException();
             }
 
@@ -38,10 +38,10 @@ namespace Replica {
             };
         }
 
-        public PreSetResponse PreSet(PreSetRequest request) {
-            var result = preSet(request);
+        public PreDeleteResponse PreDelete(PreDeleteRequest request) {
+            var result = preDelete(request);
 
-            return new PreSetResponse {
+            return new PreDeleteResponse {
                 CanCommit = result
             };
         }
@@ -49,11 +49,11 @@ namespace Replica {
         public bool TryHandle(IMessage request, out IMessage response) {
             response = null;
 
-            if (request.Type == PreSetRequest.TypeName) {
-                response = PreSet((PreSetRequest)request);
+            if (request.Type == PreDeleteRequest.TypeName) {
+                response = PreDelete((PreDeleteRequest)request);
             } else if (request.Type == CommitRequest.TypeName) {
                 var commitRequest = (CommitRequest)request;
-                if (commitRequest.IsSetAction) {
+                if (commitRequest.IsDeleteAction) {
                     response = Commit(commitRequest);
                 }
             }
@@ -73,21 +73,20 @@ namespace Replica {
 
                 KeyValueManager
                     .ForTransaction(tx)
-                    .SetValue(request.Key, request.Value);
+                    .DeleteValue(request.Key);
 
                 tx.Commit();
                 return true;
             }
         }
 
-        private static bool PreSet(SQLiteConnection connection, PreSetRequest request) {
+        private static bool PreDelete(SQLiteConnection connection, PreDeleteRequest request) {
             using (var tx = connection.BeginTransaction(IsolationLevel.ReadCommitted)) {
                 var manager = TransactionManager.ForTransaction(tx);
                 var result = manager.TryCreate(
                     request.TransactionId,
-                    TransactionActions.Set,
-                    request.Key,
-                    request.Value);
+                    TransactionActions.Delete,
+                    request.Key);
 
                 if (result) {
                     tx.Commit();
