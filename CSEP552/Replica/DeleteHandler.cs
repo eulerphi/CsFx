@@ -38,10 +38,10 @@ namespace Replica {
             };
         }
 
-        public PreDeleteResponse PreDelete(PreDeleteRequest request) {
+        public PrepareResponse PreDelete(PreDeleteRequest request) {
             var result = preDelete(request);
 
-            return new PreDeleteResponse {
+            return new PrepareResponse {
                 CanCommit = result
             };
         }

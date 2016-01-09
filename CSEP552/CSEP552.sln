@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReplicaTests", "ReplicaTests\ReplicaTests.csproj", "{15AEDB75-C2BC-43B5-B483-A5368ED0349A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Leader", "Leader\Leader.csproj", "{7CCED43E-581B-401A-9DA5-0242E2C4DBCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{15AEDB75-C2BC-43B5-B483-A5368ED0349A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15AEDB75-C2BC-43B5-B483-A5368ED0349A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15AEDB75-C2BC-43B5-B483-A5368ED0349A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CCED43E-581B-401A-9DA5-0242E2C4DBCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CCED43E-581B-401A-9DA5-0242E2C4DBCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CCED43E-581B-401A-9DA5-0242E2C4DBCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CCED43E-581B-401A-9DA5-0242E2C4DBCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

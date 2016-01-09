@@ -38,10 +38,10 @@ namespace Replica {
             };
         }
 
-        public PreSetResponse PreSet(PreSetRequest request) {
+        public PrepareResponse PreSet(PreSetRequest request) {
             var result = preSet(request);
 
-            return new PreSetResponse {
+            return new PrepareResponse {
                 CanCommit = result
             };
         }

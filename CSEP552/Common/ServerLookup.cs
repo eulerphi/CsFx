@@ -9,7 +9,7 @@ namespace Common {
     public class ServerLookup {
         private static int BasePort = 1111;
 
-        public static IPEndPoint Master => new IPEndPoint(IPAddress.Loopback, BasePort);
+        public static IPEndPoint Leader => new IPEndPoint(IPAddress.Loopback, BasePort);
 
         public static IPEndPoint Replica(int number) {
             return new IPEndPoint(IPAddress.Loopback, BasePort + number + 1);

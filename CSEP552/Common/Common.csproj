@@ -45,13 +45,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IRequestHandler.cs" />
+    <Compile Include="KeyValueLeader.cs" />
     <Compile Include="KeyValueReplica.cs" />
+    <Compile Include="ListExtensions.cs" />
     <Compile Include="MessageResolver.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="NetworkClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerLookup.cs" />
     <Compile Include="TransactionActions.cs" />
+    <Compile Include="TransactionClosedException.cs" />
+    <Compile Include="TwoPhaseCommitState.cs" />
+    <Compile Include="TwoPhaseTransaction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

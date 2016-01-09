@@ -9,15 +9,15 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Replica {
-    public class KeyValueReplica {
+    public class KeyValueReplicaServer {
         private readonly IRequestHandler handler;
 
-        public KeyValueReplica(IRequestHandler handler) {
+        public KeyValueReplicaServer(IRequestHandler handler) {
             this.handler = handler;
         }
 
-        public static KeyValueReplica ForConnection(SQLiteConnection connection) {
-            return new KeyValueReplica(DefaultRequestHandler.ForConnection(connection));
+        public static KeyValueReplicaServer ForConnection(SQLiteConnection connection) {
+            return new KeyValueReplicaServer(DefaultRequestHandler.ForConnection(connection));
         }
 
         public void Start(IPEndPoint endpoint) {

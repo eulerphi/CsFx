@@ -25,16 +25,19 @@ namespace RpcClient {
 
             var fooValue = replica.Get(fooKey);
 
-            using (var tx = replica.StartTransaction()) {
-                if (tx.TrySet(fooKey, "moo")) {
+            using (var tx = replica.StartSet(fooKey, "moo")) {
+                if (tx.Prepare()) {
                     tx.Commit();
+                }
+                else {
+                    Console.WriteLine("Prepare failed");
                 }
             }
 
             var fooValue2 = replica.Get(fooKey);
 
-            using (var tx = replica.StartTransaction()) {
-                if (tx.TryDelete(fooKey)) {
+            using (var tx = replica.StartDelete(fooKey)) {
+                if (tx.Prepare()) {
                     tx.Commit();
                 }
             }

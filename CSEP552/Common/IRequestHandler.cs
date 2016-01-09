@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Replica {
+namespace Common {
     public interface IRequestHandler {
         bool TryHandle(IMessage request, out IMessage response);
     }

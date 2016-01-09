@@ -22,12 +22,10 @@ namespace Common {
                     return envelope.Resolve<GetValueResponse>();
                 case PreDeleteRequest.TypeName:
                     return envelope.Resolve<PreDeleteRequest>();
-                case PreDeleteResponse.TypeName:
-                    return envelope.Resolve<PreDeleteResponse>();
                 case PreSetRequest.TypeName:
                     return envelope.Resolve<PreSetRequest>();
-                case PreSetResponse.TypeName:
-                    return envelope.Resolve<PreSetResponse>();
+                case PrepareResponse.TypeName:
+                    return envelope.Resolve<PrepareResponse>();
                 default:
                     throw new ArgumentOutOfRangeException("envelope.Type");
             }

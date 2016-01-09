@@ -20,7 +20,7 @@ namespace Replica {
 
             using (var connection = Connect(replicaNumber, setup)) {
                 connection.Open();
-                var replica = KeyValueReplica.ForConnection(connection);
+                var replica = KeyValueReplicaServer.ForConnection(connection);
                 var endpoint = ServerLookup.Replica(replicaNumber);
                 replica.Start(endpoint);
                 Console.ReadKey();
