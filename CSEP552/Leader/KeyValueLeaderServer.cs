@@ -22,11 +22,12 @@ namespace Leader {
         }
 
         public static KeyValueLeaderServer Create(
-            Func<SQLiteConnection> createConnection) {
+            Func<SQLiteConnection> createConnection,
+            Func<KeyValueReplicaEnsemble> createEnsemble) {
 
             return new KeyValueLeaderServer(
                 createConnection,
-                DefaultRequestHandler.ForConnection);
+                c => DefaultRequestHandler.Create(c, createEnsemble()));
         }
 
         public void Start(IPEndPoint endpoint) {

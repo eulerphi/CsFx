@@ -45,9 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DistributedTwoPhaseTransaction.cs" />
     <Compile Include="IRequestHandler.cs" />
     <Compile Include="KeyValueLeader.cs" />
     <Compile Include="KeyValueReplica.cs" />
+    <Compile Include="KeyValueReplicaEnsemble.cs" />
     <Compile Include="ListExtensions.cs" />
     <Compile Include="MessageResolver.cs" />
     <Compile Include="Messages.cs" />

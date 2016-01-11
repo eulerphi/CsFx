@@ -33,6 +33,21 @@ namespace Common {
         }
     }
 
+    public class AbortRequest : BaseMessage {
+        public const string TypeName = "AbortRequest";
+        public Guid TransactionId { get; set; }
+
+        public AbortRequest() : base(TypeName) { /* empty */ }
+    }
+
+    public class AbortResponse : BaseMessage {
+        public const string TypeName = "AbortResponse";
+
+        public bool Aborted { get; set; }
+
+        public AbortResponse() : base(TypeName) { /* empty */ }
+    }
+
     public class GetValueRequest : BaseMessage {
         public const string TypeName = "GetValueRequest";
 
@@ -127,18 +142,36 @@ namespace Common {
         public CommitResponse() : base(TypeName) { /* empty */ }
     }
 
-    public class AbortRequest : BaseMessage {
-        public const string TypeName = "AbortRequest";
-        public Guid TransactionId { get; set; }
+    public class DeleteValueRequest : BaseMessage {
+        public const string TypeName = "DeleteValueRequest";
 
-        public AbortRequest() : base(TypeName) { /* empty */ }
+        public string Key { get; set; }
+
+        public DeleteValueRequest() : base(TypeName) { /* empty */ }
     }
 
-    public class AbortResponse : BaseMessage {
-        public const string TypeName = "AbortResponse";
+    public class DeleteValueResponse : BaseMessage {
+        public const string TypeName = "DeleteValueResponse";
 
-        public bool Aborted { get; set; }
+        public bool Success { get; set; }
 
-        public AbortResponse() : base(TypeName) { /* empty */ }
+        public DeleteValueResponse() : base(TypeName) { /* empty */ }
+    }
+
+    public class SetValueRequest : BaseMessage {
+        public const string TypeName = "SetValueRequest";
+
+        public string Key { get; set; }
+        public string Value { get; set; }
+
+        public SetValueRequest() : base(TypeName) { /* empty */ }
+    }
+
+    public class SetValueResponse : BaseMessage {
+        public const string TypeName = "SetValueResponse";
+
+        public bool Success { get; set; }
+
+        public SetValueResponse() : base(TypeName) { /* empty */ }
     }
 }

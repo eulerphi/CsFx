@@ -15,11 +15,29 @@ namespace Leader {
                 SetupDatabase(createConnection);
             }
 
+            var replicaCount = ReplicaCount(args);
+            var createEnsemble = GetCreateEnsemble(replicaCount);
+
             KeyValueLeaderServer
-                .Create(createConnection)
+                .Create(createConnection, createEnsemble)
                 .Start(ServerLookup.Leader);
 
             Console.ReadKey();
+        }
+
+        private static Func<KeyValueReplicaEnsemble> GetCreateEnsemble(
+            int replicaCount) {
+
+            var endpoints = Enumerable
+                .Range(0, replicaCount)
+                .Select(ServerLookup.Replica)
+                .ToList();
+
+            return () => KeyValueReplicaEnsemble.ForEndpoints(endpoints);
+        }
+
+        private static int ReplicaCount(string[] args) {
+            return int.Parse(args[0]);
         }
 
         private static Func<SQLiteConnection> GetCreateConnection() {
@@ -28,7 +46,7 @@ namespace Leader {
         }
 
         private static bool ShouldSetupDatabase(string[] args) {
-            return args.Length > 0 ? bool.Parse(args[0]) : false;
+            return args.Length > 1 ? bool.Parse(args[1]) : false;
         }
 
         private static void SetupDatabase(Func<SQLiteConnection> createConnection) {

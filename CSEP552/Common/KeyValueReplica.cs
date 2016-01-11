@@ -34,6 +34,10 @@ namespace Common {
                 Key = key,
                 TransactionId = Guid.NewGuid()
             };
+            return StartDelete(request);
+        }
+
+        public TwoPhaseTransaction StartDelete(PreDeleteRequest request) {
             return new TwoPhaseTransaction(clientFactory(), request);
         }
 
@@ -44,6 +48,10 @@ namespace Common {
                 Value = value
             };
 
+            return StartSet(request);
+        }
+
+        public TwoPhaseTransaction StartSet(PreSetRequest request) {
             return new TwoPhaseTransaction(clientFactory(), request);
         }
     }

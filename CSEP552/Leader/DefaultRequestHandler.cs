@@ -14,8 +14,16 @@ namespace Leader {
             this.handlers = handlers;
         }
 
-        public static DefaultRequestHandler ForConnection(SQLiteConnection connection) {
+        public static DefaultRequestHandler Create(
+            SQLiteConnection connection,
+            KeyValueReplicaEnsemble ensemble) {
+
+            var manager = CommittedTransactionManager.ForConnection(connection);
+
             return new DefaultRequestHandler(new List<IRequestHandler> {
+                new DeleteValueHandler(ensemble, manager.Add),
+                new GetHandler(ensemble),
+                new SetHandler(ensemble, manager.Add)
             });
         }
 
